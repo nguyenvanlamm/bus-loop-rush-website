@@ -12,15 +12,11 @@ This file lists factual pages about the game for language models and other reade
 - New rules: mystery cars (level 12), traffic cones (18), chained cars (24), VIP passengers (30), bomb cars (36), garages (42), flip cars (48), frozen cars (54). Later levels mix up to three.
 - Boosters: Fill Up, Shuffle and VIP (from level 5). Combos, up to three stars per level, a 7-day daily reward.
 - No ads. Optional coin packs are sold as in-app purchases. No account; progress is stored on the device.
-- The game's interface is in English; this website is in English and Vietnamese.
+- The game and this website are in English.
 
 ## Pages
 
-- English home: https://nguyenvanlamm.github.io/bus-loop-rush-website/
-- Vietnamese home: https://nguyenvanlamm.github.io/bus-loop-rush-website/vi/
-- Support (English): https://nguyenvanlamm.github.io/bus-loop-rush-website/support/
-- Support (Vietnamese): https://nguyenvanlamm.github.io/bus-loop-rush-website/vi/support/
-- Privacy (English): https://nguyenvanlamm.github.io/bus-loop-rush-website/privacy/
-- Privacy (Vietnamese): https://nguyenvanlamm.github.io/bus-loop-rush-website/vi/privacy/
-- Changelog (English): https://nguyenvanlamm.github.io/bus-loop-rush-website/changelog/
-- Changelog (Vietnamese): https://nguyenvanlamm.github.io/bus-loop-rush-website/vi/changelog/
+- Home: https://nguyenvanlamm.github.io/bus-loop-rush-website/
+- Support: https://nguyenvanlamm.github.io/bus-loop-rush-website/support/
+- Privacy: https://nguyenvanlamm.github.io/bus-loop-rush-website/privacy/
+- Changelog: https://nguyenvanlamm.github.io/bus-loop-rush-website/changelog/

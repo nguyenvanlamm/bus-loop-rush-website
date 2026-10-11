@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Checks the static site before it is published: every page's language,
-// canonical/hreflang/Open Graph URLs, JSON-LD, local links and anchors,
-// images, fonts, issue forms, sitemap, robots, llms.txt and the README.
+// canonical/Open Graph URLs, JSON-LD, local links and anchors, images,
+// fonts, issue forms, sitemap, robots, llms.txt and the README.
+// The site is English-only.
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,14 +16,10 @@ const issueForms = {
   feedback: `${repo}/issues/new?template=feedback.yml`,
 };
 const pages = [
-  { file: 'index.html', lang: 'en', canonical: base, languageHref: 'vi/index.html', type: 'VideoGame', mustContain: ['Bus Loop', 'How to play', 'Mystery cars', 'Coming soon'], faqCount: 5 },
-  { file: 'vi/index.html', lang: 'vi', canonical: `${base}vi/`, languageHref: '../index.html', type: 'VideoGame', mustContain: ['Bus Loop', 'Cách chơi', 'Xe bom', 'Sắp ra mắt'], faqCount: 5 },
-  { file: 'support/index.html', lang: 'en', canonical: `${base}support/`, languageHref: '../vi/support/', type: 'WebPage', mustContain: ['Report a bug', 'Suggest a feature', 'Send feedback'], issueForms: true },
-  { file: 'vi/support/index.html', lang: 'vi', canonical: `${base}vi/support/`, languageHref: '../../support/', type: 'WebPage', mustContain: ['Báo lỗi', 'Đề xuất tính năng', 'Gửi phản hồi'], issueForms: true },
-  { file: 'privacy/index.html', lang: 'en', canonical: `${base}privacy/`, languageHref: '../vi/privacy/', type: 'WebPage', mustContain: ['Stored by the app', 'Effective 11 October 2026'] },
-  { file: 'vi/privacy/index.html', lang: 'vi', canonical: `${base}vi/privacy/`, languageHref: '../../privacy/', type: 'WebPage', mustContain: ['Ứng dụng lưu những gì', 'Hiệu lực từ 11/10/2026'] },
-  { file: 'changelog/index.html', lang: 'en', canonical: `${base}changelog/`, languageHref: '../vi/changelog/', type: 'WebPage', mustContain: ['0.1.0', 'In development / unreleased'] },
-  { file: 'vi/changelog/index.html', lang: 'vi', canonical: `${base}vi/changelog/`, languageHref: '../../changelog/', type: 'WebPage', mustContain: ['0.1.0', 'Đang phát triển / chưa phát hành'] },
+  { file: 'index.html', canonical: base, type: 'VideoGame', mustContain: ['Bus Loop', 'How to play', 'Mystery cars', 'Coming soon'], faqCount: 5 },
+  { file: 'support/index.html', canonical: `${base}support/`, type: 'WebPage', mustContain: ['Report a bug', 'Suggest a feature', 'Send feedback'], issueForms: true },
+  { file: 'privacy/index.html', canonical: `${base}privacy/`, type: 'WebPage', mustContain: ['Stored by the app', 'Effective 11 October 2026'] },
+  { file: 'changelog/index.html', canonical: `${base}changelog/`, type: 'WebPage', mustContain: ['0.1.0', 'In development / unreleased'] },
 ];
 // The game is an original clone: no names, logos or art of the game that inspired it.
 const forbidden = [/bus traffic fever/i, /goodroid/i];
@@ -61,26 +58,20 @@ function checkFragments(pageFile, html) {
 
 for (const page of pages) {
   const html = read(page.file);
-  const enUrl = page.lang === 'en' ? page.canonical : page.canonical.replace('/vi/', '/');
-  const viUrl = page.lang === 'vi' ? page.canonical : page.canonical.replace(base, `${base}vi/`);
-  check(new RegExp(`<html\\s+lang=["']${page.lang}["']`, 'i').test(html), `${page.file}: html lang must be ${page.lang}`);
+  check(/<html\s+lang=["']en["']/i.test(html), `${page.file}: html lang must be en`);
   check(html.includes(`<link rel="canonical" href="${page.canonical}">`), `${page.file}: canonical URL is missing or wrong`);
-  check(html.includes(`<link rel="alternate" hreflang="en" href="${enUrl}">`), `${page.file}: English hreflang is missing or wrong`);
-  check(html.includes(`<link rel="alternate" hreflang="vi" href="${viUrl}">`), `${page.file}: Vietnamese hreflang is missing or wrong`);
-  check(html.includes(`<link rel="alternate" hreflang="x-default" href="${enUrl}">`), `${page.file}: x-default hreflang is missing or wrong`);
+  check(!/hreflang=|og:locale:alternate|\/vi\//.test(html), `${page.file}: the site is English-only (no language alternates or /vi/ links)`);
   check(/<title>[^<]+<\/title>/.test(html), `${page.file}: title is missing`);
   check(html.includes('<meta name="description" content="'), `${page.file}: meta description is missing`);
   check(html.includes(`<meta property="og:url" content="${page.canonical}">`), `${page.file}: Open Graph URL must match canonical`);
   check(html.includes(`<meta property="og:image" content="${base}assets/social-card.png">`), `${page.file}: absolute social image is missing`);
   check(html.includes(`<meta name="twitter:image" content="${base}assets/social-card.png">`), `${page.file}: twitter image is missing`);
-  check(html.includes(`href="${page.languageHref}"`), `${page.file}: language switch does not point to the equivalent page`);
   const references = localReferences(page.file, html);
-  const localeRoot = page.lang === 'vi' ? 'vi/' : '';
   for (const route of ['support', 'privacy', 'changelog']) {
-    check(references.some(({ target }) => target === join(root, localeRoot, route, 'index.html')), `${page.file}: missing localized ${route} navigation`);
+    check(references.some(({ target }) => target === join(root, route, 'index.html')), `${page.file}: missing ${route} navigation`);
   }
   const brandHref = html.match(/<a class="brand" href="([^"]+)"/)?.[1];
-  check(brandHref && localTarget(page.file, brandHref) === join(root, localeRoot, 'index.html'), `${page.file}: brand must link to the localized home`);
+  check(brandHref && localTarget(page.file, brandHref) === join(root, 'index.html'), `${page.file}: brand must link to the home page`);
   check(html.includes('class="footer-links"'), `${page.file}: footer links are missing`);
   for (const marker of page.mustContain) check(html.includes(marker), `${page.file}: expected content missing: ${marker}`);
   for (const pattern of forbidden) check(!pattern.test(html), `${page.file}: must not mention ${pattern}`);
@@ -107,7 +98,7 @@ for (const page of pages) {
         if (page.type === 'VideoGame') {
           check(['Android', 'iOS'].every((p) => primary.gamePlatform?.includes(p)), `${page.file}: JSON-LD platforms must include Android and iOS`);
         } else {
-          check(primary.inLanguage === page.lang, `${page.file}: WebPage JSON-LD language must match the page`);
+          check(primary.inLanguage === 'en', `${page.file}: WebPage JSON-LD language must be en`);
         }
       }
       for (const node of nodes) {
