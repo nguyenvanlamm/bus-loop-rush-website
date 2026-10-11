@@ -1,0 +1,52 @@
+name: Report a bug
+description: Something in Bus Loop Rush did not work as expected.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping fix Bus Loop Rush. Issues are public: do not include passwords, payment details or other personal data.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe what you saw.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to make it happen again
+      placeholder: |
+        1. Open level ...
+        2. Tap ...
+        3. See ...
+    validations:
+      required: true
+  - type: input
+    id: level
+    attributes:
+      label: Level number
+      description: Levels are generated from their number, so this lets us replay the exact level.
+      placeholder: "36"
+  - type: input
+    id: device
+    attributes:
+      label: Device and system
+      placeholder: Pixel 7, Android 15 / iPhone 13, iOS 18
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      placeholder: 0.1.0
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots or a short screen recording help a lot.

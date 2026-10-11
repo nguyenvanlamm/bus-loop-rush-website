@@ -1,0 +1,6 @@
+# Bus Loop Rush website. GitHub Pages serves this project under
+# /bus-loop-rush-website/, so this file is not a domain-root robots policy.
+User-agent: *
+Allow: /bus-loop-rush-website/
+
+Sitemap: https://nguyenvanlamm.github.io/bus-loop-rush-website/sitemap.xml

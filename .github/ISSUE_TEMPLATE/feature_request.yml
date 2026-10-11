@@ -1,0 +1,25 @@
+name: Suggest a feature
+description: An idea or improvement for Bus Loop Rush.
+title: "[Idea]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us about the problem first, then your idea. Issues are public.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: What were you trying to do, and what got in the way?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Other ways you thought of

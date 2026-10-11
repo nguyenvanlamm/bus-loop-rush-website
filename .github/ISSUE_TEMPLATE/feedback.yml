@@ -1,0 +1,30 @@
+name: Send feedback
+description: How a level, a rule or the game feels to play.
+title: "[Feedback]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Honest reactions help most. Issues are public.
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is it about?
+      options:
+        - A specific level
+        - A rule (mystery cars, cones, chains, VIPs, bombs, garages, flip cars, frozen cars)
+        - Boosters, coins or the shop
+        - Look and sound
+        - The game overall
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback
+    validations:
+      required: true
+  - type: input
+    id: level
+    attributes:
+      label: Level number (if any)
