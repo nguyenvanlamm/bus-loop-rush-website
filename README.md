@@ -1,14 +1,14 @@
 # Bus Loop Rush — website
 
-A dependency-free, English-only landing site for **Bus Loop Rush**, the bus-and-crowd color puzzle for Android and iOS. It is published with GitHub Pages at <https://nguyenvanlamm.github.io/bus-loop-rush-website/>.
+A dependency-free, English-only landing site for **Bus Loop Rush**, the bus-and-crowd color puzzle for Android and iOS. It is published with Netlify at <https://buslooprushld.lamnv.com/>.
 
 ### Pages for store submission
 
 | Purpose | URL |
 | --- | --- |
-| Support / issue forms | <https://nguyenvanlamm.github.io/bus-loop-rush-website/support/> |
-| Privacy policy | <https://nguyenvanlamm.github.io/bus-loop-rush-website/privacy/> |
-| Changelog | <https://nguyenvanlamm.github.io/bus-loop-rush-website/changelog/> |
+| Support / issue forms | <https://buslooprushld.lamnv.com/support/> |
+| Privacy policy | <https://buslooprushld.lamnv.com/privacy/> |
+| Changelog | <https://buslooprushld.lamnv.com/changelog/> |
 
 The store section is informational on purpose: Google Play and the App Store are both **coming soon**, with no made-up download links, dates, prices, ratings or reviews.
 
@@ -32,11 +32,13 @@ Fonts are self-hosted copies of the game's own faces, Lilita One and Fredoka (SI
 
 ## Deployment
 
-`.github/workflows/pages.yml` validates the site and deploys only the public files with GitHub Actions Pages on every push to `main` (or a manual run). The repository's Pages source must be **GitHub Actions**.
+Netlify builds the site from this GitHub repository on every push to `main` and makes a deploy preview for each pull request. `netlify.toml` runs the validator, copies only the public files into `_site/` and publishes that folder; a failed validation stops the deploy. The custom domain `buslooprushld.lamnv.com` is set in the Netlify site's domain settings, with a DNS `CNAME` record pointing to the site's `*.netlify.app` address.
 
-If the owner, repository name or host changes, update together: the canonical, Open Graph and JSON-LD URLs in all four pages, `sitemap.xml`, `robots.txt`, `llms.txt`, `scripts/validate.mjs` and this README.
+`.github/workflows/pages.yml` still publishes the same files to GitHub Pages as a mirror; its pages declare the Netlify domain as canonical. Both files list the public files, so keep the two lists in step.
 
-`robots.txt` is scoped to the `/bus-loop-rush-website/` project path on GitHub Pages; it is not a domain-root robots policy.
+If the owner, repository name or host changes, update together: the canonical, Open Graph and JSON-LD URLs in all four pages, `sitemap.xml`, `robots.txt`, `llms.txt`, the hosting paragraph of the privacy policy, `.github/ISSUE_TEMPLATE/config.yml`, `scripts/validate.mjs` and this README.
+
+`robots.txt` is the domain-root robots policy for `buslooprushld.lamnv.com`.
 
 ## Store follow-up
 

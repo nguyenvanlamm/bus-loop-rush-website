@@ -1,0 +1,8 @@
+# Netlify builds from GitHub on every push to main. The site has no build
+# step: validate it, then publish only the public files (as pages.yml does).
+[build]
+  command = "node scripts/validate.mjs && rm -rf _site && mkdir _site && cp index.html styles.css documents.css robots.txt sitemap.xml llms.txt _site/ && cp -R assets support privacy changelog _site/"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "22"

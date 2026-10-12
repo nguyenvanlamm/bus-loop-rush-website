@@ -16,7 +16,7 @@ This file lists factual pages about the game for language models and other reade
 
 ## Pages
 
-- Home: https://nguyenvanlamm.github.io/bus-loop-rush-website/
-- Support: https://nguyenvanlamm.github.io/bus-loop-rush-website/support/
-- Privacy: https://nguyenvanlamm.github.io/bus-loop-rush-website/privacy/
-- Changelog: https://nguyenvanlamm.github.io/bus-loop-rush-website/changelog/
+- Home: https://buslooprushld.lamnv.com/
+- Support: https://buslooprushld.lamnv.com/support/
+- Privacy: https://buslooprushld.lamnv.com/privacy/
+- Changelog: https://buslooprushld.lamnv.com/changelog/

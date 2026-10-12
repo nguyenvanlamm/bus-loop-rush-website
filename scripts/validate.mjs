@@ -8,7 +8,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const base = 'https://nguyenvanlamm.github.io/bus-loop-rush-website/';
+const base = 'https://buslooprushld.lamnv.com/';
 const repo = 'https://github.com/nguyenvanlamm/bus-loop-rush-website';
 const issueForms = {
   bug: `${repo}/issues/new?template=bug_report.yml`,
@@ -18,7 +18,7 @@ const issueForms = {
 const pages = [
   { file: 'index.html', canonical: base, type: 'VideoGame', mustContain: ['Bus Loop', 'How to play', 'Mystery cars', 'Coming soon'], faqCount: 5 },
   { file: 'support/index.html', canonical: `${base}support/`, type: 'WebPage', mustContain: ['Report a bug', 'Suggest a feature', 'Send feedback'], issueForms: true },
-  { file: 'privacy/index.html', canonical: `${base}privacy/`, type: 'WebPage', mustContain: ['Stored by the app', 'Effective 11 October 2026'] },
+  { file: 'privacy/index.html', canonical: `${base}privacy/`, type: 'WebPage', mustContain: ['Stored by the app', 'Effective 12 October 2026'] },
   { file: 'changelog/index.html', canonical: `${base}changelog/`, type: 'WebPage', mustContain: ['0.1.0', 'In development / unreleased'] },
 ];
 // The game is an original clone: no names, logos or art of the game that inspired it.
@@ -151,13 +151,14 @@ const sitemap = read('sitemap.xml');
 for (const page of pages) check(sitemap.includes(`<loc>${page.canonical}</loc>`), `sitemap.xml is missing ${page.canonical}`);
 check((sitemap.match(/<loc>/g) ?? []).length === pages.length, `sitemap.xml must contain exactly ${pages.length} routes`);
 check(read('robots.txt').includes(`Sitemap: ${base}sitemap.xml`), 'robots.txt must point to sitemap.xml');
+check(/^Allow: \/$/m.test(read('robots.txt')), 'robots.txt must allow the whole domain');
 const llms = read('llms.txt');
 for (const page of pages) check(llms.includes(page.canonical), `llms.txt is missing ${page.canonical}`);
 check(llms.includes('not a guarantee of AI ranking'), 'llms.txt must state its factual, non-ranking purpose');
 const readme = read('README.md');
 for (const route of ['support/', 'privacy/', 'changelog/']) check(readme.includes(`${base}${route}`), `README is missing the ${route} URL`);
 check(readme.includes('privacy labels'), 'README must document the store privacy follow-up');
-check(readme.includes('not a domain-root robots policy'), 'README must document the project-path robots scope');
+check(readme.includes('domain-root robots policy'), 'README must document the robots scope');
 
 if (errors.length) {
   console.error(`Static validation failed (${errors.length} issue${errors.length === 1 ? '' : 's'}):`);
